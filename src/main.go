@@ -1,4 +1,10 @@
-package main
+package goEuler
+
+import (
+    "fmt"
+
+    "github.com/goEuler/funcs"
+)
 
 func main() {
     // Get a greeting message and print it.
