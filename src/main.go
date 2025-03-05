@@ -22,7 +22,18 @@ func main() {
 		return Multiples_of_3_and_5(1000), nil
 	})
 
-	fmt.Println(Fib_numbers(100))
+	timeFunction("Answer 2", func() (interface{}, error) {
+		return Sum_even_valued_fibs(4000000), nil
+	})
+
+	n := 13195
+	n1, n2, err := Factor(n)
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+
+		fmt.Printf("Factors of %d: %d and %d", n, n1, n2)
+	}
 
 }
 
