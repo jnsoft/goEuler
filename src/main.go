@@ -22,6 +22,8 @@ func main() {
 		return Multiples_of_3_and_5(1000), nil
 	})
 
+	fmt.Println(Fib_numbers(100))
+
 }
 
 func timeFunction(label string, f func() (interface{}, error)) {
