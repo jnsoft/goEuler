@@ -10,13 +10,11 @@ func Hello(name string) string {
 }
 
 func Multiples_of_3_and_5(max int) int {
-	sum := 0
-	for i := 1; i < max; i++ {
-		if i%3 == 0 {
-			sum += i
-		} else if i%5 == 0 {
-			sum += i
-		}
-	}
-	return sum
+
+	return sumOfMultiples(max, 3) + sumOfMultiples(max, 5) - sumOfMultiples(max, 15)
+}
+
+func sumOfMultiples(limit, n int) int {
+	k := (limit - 1) / n
+	return n * k * (k + 1) / 2
 }
