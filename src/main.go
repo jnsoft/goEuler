@@ -1,13 +1,13 @@
-package goEuler
+package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/goEuler/funcs"
+	"github.com/jnsoft/goEuler/src/funcs"
 )
 
 func main() {
-    // Get a greeting message and print it.
-    message := greetings.Hello("Gladys")
-    fmt.Println(message)
+	// Get a greeting message and print it.
+	message := funcs.Hello("Gladys")
+	fmt.Println(message)
 }

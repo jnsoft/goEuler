@@ -1,3 +1,3 @@
-module github.com/goEuler
+module github.com/jnsoft/goEuler
 
 go 1.22.2
