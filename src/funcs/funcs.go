@@ -71,15 +71,18 @@ func GetLargestFactor(n int) int {
 }
 
 func GetLargestPalindrome() int {
-	for n1 := 999; n1 > 0; n1-- {
-		for n2 := 999; n2 > 0; n2-- {
+	res := 0
+	for n1 := 1; n1 < 1000; n1++ {
+		for n2 := 1; n2 < 1000; n2++ {
 			prd := n1 * n2
 			if IsPalindrome(strconv.Itoa(prd)) {
-				return prd
+				if prd > res {
+					res = prd
+				}
 			}
 		}
 	}
-	return -1
+	return res
 }
 
 func IsPalindrome(s string) bool {
