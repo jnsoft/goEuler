@@ -34,9 +34,15 @@ func main() {
 	})
 
 	TimeFunction("Answer 5", func() (interface{}, error) {
-		return IsDivisible(20), nil
+		return IsPerfectDivisible(20), nil
 	})
 
-	res := IsPerfectDivisible(10)
-	fmt.Printf("Res %v", res)
+	TimeFunction("Answer 6", func() (interface{}, error) {
+		return SumSquareDiff(100), nil
+	})
+
+	
+
+	//res := IsPerfectDivisible(20)
+	//fmt.Printf("Res %v", res)
 }

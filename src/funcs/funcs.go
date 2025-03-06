@@ -98,7 +98,7 @@ func IsPerfectDivisible(no_of_divisors int) int {
 	i := 0
 	check := true
 
-	for len(primes) <= i {
+	for len(primes) > i {
 		a[i] = 1
 		if check {
 			if primes[i] <= limit {
@@ -107,22 +107,30 @@ func IsPerfectDivisible(no_of_divisors int) int {
 				check = false
 			}
 		}
-		N = N*primes[i] ^ a[i]
+		N *= inthelper.Pow(primes[i], a[i])
 		i++
 	}
+
 	return N
 }
 
-func IsDivisible(divisors int) int {
-	res := 2
-	for {
-		for i := 2; i <= divisors; i++ {
-			if i >= divisors && res%i == 0 {
-				return res
-			} else if res%i != 0 {
-				break
-			}
-		}
-		res += 2
-	}
+func SumSquareDiff(n int) int{
+	ns := rangeSlice(1,n)
+	sum := misc.Fold(ns, func(acc, num int) int{
+		return acc + num
+	}, 0)
+	sumSq := inthelper.Pow(sum,2)
+	sqSum := misc.Fold(ns, func(acc, num int) int{
+		return acc + inthelper.Pow(num,2)
+	},0)
+	return sumSq - sqSum
+}
+
+func rangeSlice(a, b int) []int {
+    size := b - a + 1
+    slice := make([]int, size)
+    for i := range slice {
+        slice[i] = a + i
+    }
+    return slice
 }
