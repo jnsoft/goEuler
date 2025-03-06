@@ -5,7 +5,6 @@ import (
 
 	. "github.com/jnsoft/goEuler/src/funcs"
 	"github.com/jnsoft/jngo/bag"
-	"github.com/jnsoft/jngo/inthelper"
 )
 
 func main() {
@@ -34,8 +33,10 @@ func main() {
 		return GetLargestPalindrome(), nil
 	})
 
-	n := 68570
-	ns := inthelper.Factor(n)
+	TimeFunction("Answer 5", func() (interface{}, error) {
+		return IsDivisible(20), nil
+	})
 
-	fmt.Printf("Factors of %d: %v", n, ns)
+	res := IsPerfectDivisible(10)
+	fmt.Printf("Res %v", res)
 }

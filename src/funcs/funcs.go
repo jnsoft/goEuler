@@ -2,8 +2,7 @@ package funcs
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
+	"math"
 	"time"
 
 	"github.com/jnsoft/jngo/inthelper"
@@ -71,26 +70,59 @@ func GetLargestFactor(n int) int {
 }
 
 func GetLargestPalindrome() int {
-	res := 0
-	for n1 := 1; n1 < 1000; n1++ {
-		for n2 := 1; n2 < 1000; n2++ {
+	for n1 := 999; n1 > 99; n1-- {
+		for n2 := n1; n2 > 99; n2-- {
 			prd := n1 * n2
-			if IsPalindrome(strconv.Itoa(prd)) {
-				if prd > res {
-					res = prd
-				}
+			if prd == reverse(prd) {
+				return prd
 			}
 		}
 	}
-	return res
+	return -1
 }
 
-func IsPalindrome(s string) bool {
-	normalized := strings.ToLower(strings.ReplaceAll(s, " ", ""))
-	for i := 0; i < len(normalized)/2; i++ {
-		if normalized[i] != normalized[len(normalized)-1-i] {
-			return false
-		}
+func reverse(n int) int {
+	rev := 0
+	for n > 0 {
+		rev = 10*rev + n%10
+		n = n / 10
 	}
-	return true
+	return rev
+}
+
+func IsPerfectDivisible(no_of_divisors int) int {
+	limit := int(math.Sqrt(float64(no_of_divisors)))
+	primes := inthelper.PrimesSieve(no_of_divisors)
+	a := make([]int, len(primes)) // no of factors if static: var a [10]int
+	N := 1
+	i := 0
+	check := true
+
+	for len(primes) <= i {
+		a[i] = 1
+		if check {
+			if primes[i] <= limit {
+				a[i] = int(math.Floor(math.Log(float64(no_of_divisors)) / math.Log(float64(primes[i]))))
+			} else {
+				check = false
+			}
+		}
+		N = N*primes[i] ^ a[i]
+		i++
+	}
+	return N
+}
+
+func IsDivisible(divisors int) int {
+	res := 2
+	for {
+		for i := 2; i <= divisors; i++ {
+			if i >= divisors && res%i == 0 {
+				return res
+			} else if res%i != 0 {
+				break
+			}
+		}
+		res += 2
+	}
 }
