@@ -1,10 +1,10 @@
 package funcs
 
 import (
-	"errors"
 	"fmt"
-	"math"
-	"math/big"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/jnsoft/jngo/inthelper"
 	"github.com/jnsoft/jngo/misc"
@@ -15,6 +15,19 @@ func Hello(name string) string {
 	// Return a greeting that embeds the name in a message.
 	message := fmt.Sprintf("Hi, %v. Welcome!", name)
 	return message
+}
+
+func TimeFunction(label string, f func() (interface{}, error)) {
+	start := time.Now()
+	result, err := f()
+	elapsed := time.Since(start)
+
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return
+	}
+
+	fmt.Printf("%s: %v (%s)\n", label, result, elapsed)
 }
 
 func Multiples_of_3_and_5(max int) int {
@@ -52,31 +65,29 @@ func sumOfMultiples(limit, n int) int {
 	return n * k * (k + 1) / 2
 }
 
-func Factor(n int) (int, int, error) {
-	if inthelper.MillerRabin(big.NewInt(int64(n)), 13) {
-		return n, 1, nil
-	}
-	max := int(math.Sqrt(float64(n)))
-	for i := 2; i <= max; i++ {
-		if n%i == 0 {
-			return i, n / i, nil
-		}
-	}
-	return -1, -1, errors.New("no factor found")
+func GetLargestFactor(n int) int {
+	fs := inthelper.Factor(n)
+	return fs[len(fs)-1]
 }
 
-func FullFactorization(n int) ([]int, error) {
-	factors := []int{}
-	var err error
-	var factor int
-
-	for n > 1 {
-		factor, n, err = Factor(n)
-		if err != nil {
-			return nil, err
+func GetLargestPalindrome() int {
+	for n1 := 999; n1 > 0; n1-- {
+		for n2 := 999; n2 > 0; n2-- {
+			prd := n1 * n2
+			if IsPalindrome(strconv.Itoa(prd)) {
+				return prd
+			}
 		}
-		factors = append(factors, factor)
 	}
+	return -1
+}
 
-	return factors, nil
+func IsPalindrome(s string) bool {
+	normalized := strings.ToLower(strings.ReplaceAll(s, " ", ""))
+	for i := 0; i < len(normalized)/2; i++ {
+		if normalized[i] != normalized[len(normalized)-1-i] {
+			return false
+		}
+	}
+	return true
 }

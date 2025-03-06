@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	. "github.com/jnsoft/goEuler/src/funcs"
 	"github.com/jnsoft/jngo/bag"
+	"github.com/jnsoft/jngo/inthelper"
 )
 
 func main() {
@@ -18,34 +18,24 @@ func main() {
 	b.Add(4)
 	b.Add(3)
 
-	timeFunction("Answer 1", func() (interface{}, error) {
+	TimeFunction("Answer 1", func() (interface{}, error) {
 		return Multiples_of_3_and_5(1000), nil
 	})
 
-	timeFunction("Answer 2", func() (interface{}, error) {
+	TimeFunction("Answer 2", func() (interface{}, error) {
 		return Sum_even_valued_fibs(4000000), nil
 	})
 
-	n := 13195
-	n1, n2, err := Factor(n)
-	if err != nil {
-		fmt.Println(err.Error())
-	} else {
+	TimeFunction("Answer 3", func() (interface{}, error) {
+		return GetLargestFactor(600851475143), nil
+	})
 
-		fmt.Printf("Factors of %d: %d and %d", n, n1, n2)
-	}
+	TimeFunction("Answer 4", func() (interface{}, error) {
+		return GetLargestPalindrome(), nil
+	})
 
-}
+	n := 68570
+	ns := inthelper.Factor(n)
 
-func timeFunction(label string, f func() (interface{}, error)) {
-	start := time.Now()
-	result, err := f()
-	elapsed := time.Since(start)
-
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return
-	}
-
-	fmt.Printf("%s: %v (%s)\n", label, result, elapsed)
+	fmt.Printf("Factors of %d: %v", n, ns)
 }
