@@ -171,8 +171,8 @@ func ReadPoints(fileName string) [][]geohelper.Point {
 	return triangles
 }
 
-func IsMultiPolygonalNumer(a, b, c, d, e, f int) bool {
-	ns := make([]int, 4)
+func IsMultiPolygonalNumers(a, b, c, d, e, f int) bool {
+	ns := make([]int, 0)
 	ns = append(ns, FindPolygonalNumberIx(a, TriangularNumber))
 	ns = append(ns, FindPolygonalNumberIx(b, SquareNumber))
 	ns = append(ns, FindPolygonalNumberIx(c, PentagonalNumber))
@@ -189,6 +189,17 @@ func IsMultiPolygonalNumer(a, b, c, d, e, f int) bool {
 	return false
 }
 
+func IsMultiPolygonalNumer(n int) []bool {
+	ns := make([]bool, 0)
+	ns = append(ns, FindPolygonalNumberIx(n, TriangularNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, SquareNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, PentagonalNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, HexagonalNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, HeptagonalNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, OctagonalNumber) != 0)
+	return ns
+}
+
 type PolygonalNumberFunc func(int) int
 
 func FindPolygonalNumberIx(n int, fn PolygonalNumberFunc) int {
@@ -199,7 +210,7 @@ func FindPolygonalNumberIx(n int, fn PolygonalNumberFunc) int {
 		ix++
 	}
 	if val == n {
-		return ix
+		return ix - 1
 	} else {
 		return 0
 	}

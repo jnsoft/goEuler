@@ -7,6 +7,7 @@ import (
 	. "github.com/jnsoft/goEuler/src/funcs"
 	"github.com/jnsoft/jngo/bag"
 	"github.com/jnsoft/jngo/geohelper"
+	"github.com/jnsoft/jngo/misc"
 )
 
 func main() {
@@ -56,6 +57,15 @@ func main() {
 
 	//ns := []int{8128, 2882, 8281}
 
-	funcs.IsMultiPolygonalNumer(8128, 2882, 8281, 0, 0, 0)
+	t1 := funcs.IsMultiPolygonalNumer(8128)
+
+	c1 := misc.Reduce(t1, func(count int, value bool) int {
+		if value {
+			return count + 1
+		}
+		return count
+	}, 0)
+
+	print(c1)
 
 }
