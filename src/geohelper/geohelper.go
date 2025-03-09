@@ -4,43 +4,17 @@ import (
 	"fmt"
 	"math"
 	"strings"
+
+	"github.com/jnsoft/jngo/geohelper"
 )
 
-type Point struct{ X, Y float64 }
-
-// The winding number algorithm.
-// This algorithm counts how many times the polygon winds around the origin.
-// If the winding number is non-zero, the origin is inside the polygon.
-func ContainsOrigo(points []Point) bool {
-	windingNumber := 0
-
-	for i := 0; i < len(points); i++ {
-		next := (i + 1) % len(points)
-		if points[i].Y <= 0 {
-			if points[next].Y > 0 && isLeft(points[i], points[next], Point{0, 0}) > 0 {
-				windingNumber++
-			}
-		} else {
-			if points[next].Y <= 0 && isLeft(points[i], points[next], Point{0, 0}) < 0 {
-				windingNumber--
-			}
-		}
-	}
-
-	return windingNumber != 0
-}
-
-func isLeft(p1, p2, p Point) float64 {
-	return (p2.X-p1.X)*(p.Y-p1.Y) - (p.X-p1.X)*(p2.Y-p1.Y)
-}
-
-func PrintPoints(points []Point, width, height int) string {
+func PrintPoints(points []geohelper.Point, width, height int) string {
 	scaledPoints, minX, maxX, minY, maxY := scalePoints(points, width, height)
 	gridStr := generateGrid(scaledPoints, minX, maxX, minY, maxY, width, height)
 	return gridStr
 }
 
-func scalePoints(points []Point, width, height int) ([]Point, float64, float64, float64, float64) {
+func scalePoints(points []geohelper.Point, width, height int) ([]geohelper.Point, float64, float64, float64, float64) {
 	if len(points) == 0 {
 		return points, 0, 0, 0, 0
 	}
@@ -86,7 +60,7 @@ func scalePoints(points []Point, width, height int) ([]Point, float64, float64, 
 }
 
 // generateGrid creates a scaled grid with visible X and Y axes
-func generateGrid(points []Point, minX, maxX, minY, maxY float64, width, height int) string {
+func generateGrid(points []geohelper.Point, minX, maxX, minY, maxY float64, width, height int) string {
 	grid := make([][]rune, height+2) // Extra space for axes labels
 	for i := range grid {
 		grid[i] = make([]rune, width+4) // Extra space for axis labels
@@ -154,14 +128,14 @@ func generateGrid(points []Point, minX, maxX, minY, maxY float64, width, height 
 	return sb.String()
 }
 
-func PrintPoints_old(points []Point) string {
+func PrintPoints_old(points []geohelper.Point) string {
 	minX, maxX, minY, maxY := findGridBoundaries(points)
 	grid := createGrid(minX, maxX, minY, maxY)
 	placePointsOnGrid(grid, points, minX, maxX, minY, maxY)
 	return formatGrid(grid)
 }
 
-func findGridBoundaries(points []Point) (minX, maxX, minY, maxY float64) {
+func findGridBoundaries(points []geohelper.Point) (minX, maxX, minY, maxY float64) {
 	minX, maxX, minY, maxY = math.MaxFloat64, -math.MaxFloat64, math.MaxFloat64, -math.MaxFloat64
 	for _, p := range points {
 		if p.X < minX {
@@ -194,7 +168,7 @@ func createGrid(minX, maxX, minY, maxY float64) [][]rune {
 	return grid
 }
 
-func placePointsOnGrid(grid [][]rune, points []Point, minX, maxX, minY, maxY float64) {
+func placePointsOnGrid(grid [][]rune, points []geohelper.Point, minX, maxX, minY, maxY float64) {
 	for _, p := range points {
 		x := int(p.X - minX)
 		y := int(maxY - p.Y)

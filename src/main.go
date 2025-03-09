@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 
+	"github.com/jnsoft/goEuler/src/funcs"
 	. "github.com/jnsoft/goEuler/src/funcs"
-	"github.com/jnsoft/goEuler/src/geohelper"
 	"github.com/jnsoft/jngo/bag"
+	"github.com/jnsoft/jngo/geohelper"
 )
 
 func main() {
@@ -52,5 +53,9 @@ func main() {
 		}
 		return c, nil
 	})
+
+	//ns := []int{8128, 2882, 8281}
+
+	funcs.IsMultiPolygonalNumer(8128, 2882, 8281, 0, 0, 0)
 
 }

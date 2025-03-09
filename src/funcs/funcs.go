@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jnsoft/goEuler/src/geohelper"
+	"github.com/jnsoft/jngo/geohelper"
 	"github.com/jnsoft/jngo/inthelper"
 	"github.com/jnsoft/jngo/misc"
 )
@@ -169,4 +169,62 @@ func ReadPoints(fileName string) [][]geohelper.Point {
 	}
 
 	return triangles
+}
+
+func IsMultiPolygonalNumer(a, b, c, d, e, f int) bool {
+	ns := make([]int, 4)
+	ns = append(ns, FindPolygonalNumberIx(a, TriangularNumber))
+	ns = append(ns, FindPolygonalNumberIx(b, SquareNumber))
+	ns = append(ns, FindPolygonalNumberIx(c, PentagonalNumber))
+	//ns = append(ns, FindPolygonalNumberIx(d, HexagonalNumber))
+	//ns = append(ns, FindPolygonalNumberIx(e, HeptagonalNumber))
+	//ns = append(ns, FindPolygonalNumberIx(f, OctagonalNumber))
+
+	if misc.Fold(ns, func(a, b int) int { return a * b }, 1) != 0 {
+		if !misc.HasDuplicates(ns) {
+			return true
+		}
+	}
+
+	return false
+}
+
+type PolygonalNumberFunc func(int) int
+
+func FindPolygonalNumberIx(n int, fn PolygonalNumberFunc) int {
+	ix := 1
+	val := 0
+	for val < n {
+		val = fn(ix)
+		ix++
+	}
+	if val == n {
+		return ix
+	} else {
+		return 0
+	}
+}
+
+func TriangularNumber(n int) int {
+	return n * (n + 1) / 2
+}
+
+func SquareNumber(n int) int {
+	return n * n
+}
+
+func PentagonalNumber(n int) int {
+	return n * (3*n - 1) / 2
+}
+
+func HexagonalNumber(n int) int {
+	return n * (2*n - 1)
+}
+
+func HeptagonalNumber(n int) int {
+	return n * (5*n - 3) / 2
+}
+
+func OctagonalNumber(n int) int {
+	return n * (3*n - 2)
 }
