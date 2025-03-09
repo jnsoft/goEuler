@@ -41,6 +41,8 @@ func main() {
 		return SumSquareDiff(100), nil
 	})
 
+	Point p1 = new {-340,495}
+
 	
 
 	//res := IsPerfectDivisible(20)
