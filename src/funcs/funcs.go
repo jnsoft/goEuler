@@ -1,10 +1,15 @@
 package funcs
 
 import (
+	"bufio"
 	"fmt"
 	"math"
+	"os"
+	"strconv"
+	"strings"
 	"time"
 
+	"github.com/jnsoft/goEuler/src/geohelper"
 	"github.com/jnsoft/jngo/inthelper"
 	"github.com/jnsoft/jngo/misc"
 )
@@ -114,24 +119,54 @@ func IsPerfectDivisible(no_of_divisors int) int {
 	return N
 }
 
-func SumSquareDiff(n int) int{
-	ns := rangeSlice(1,n)
-	sum := misc.Fold(ns, func(acc, num int) int{
+func SumSquareDiff(n int) int {
+	ns := rangeSlice(1, n)
+	sum := misc.Fold(ns, func(acc, num int) int {
 		return acc + num
 	}, 0)
-	sumSq := inthelper.Pow(sum,2)
-	sqSum := misc.Fold(ns, func(acc, num int) int{
-		return acc + inthelper.Pow(num,2)
-	},0)
+	sumSq := inthelper.Pow(sum, 2)
+	sqSum := misc.Fold(ns, func(acc, num int) int {
+		return acc + inthelper.Pow(num, 2)
+	}, 0)
 	return sumSq - sqSum
 }
 
 func rangeSlice(a, b int) []int {
-    size := b - a + 1
-    slice := make([]int, size)
-    for i := range slice {
-        slice[i] = a + i
-    }
-    return slice
+	size := b - a + 1
+	slice := make([]int, size)
+	for i := range slice {
+		slice[i] = a + i
+	}
+	return slice
 }
 
+func ReadPoints(fileName string) [][]geohelper.Point {
+	file, err := os.Open(fileName)
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return nil
+	}
+	defer file.Close()
+
+	var triangles [][]geohelper.Point
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		nums := strings.Split(line, ",")
+		var points []geohelper.Point
+		for i := 0; i < len(nums); i += 2 {
+			x, _ := strconv.ParseFloat(nums[i], 64)
+			y, _ := strconv.ParseFloat(nums[i+1], 64)
+			points = append(points, geohelper.Point{x, y})
+		}
+		triangles = append(triangles, points)
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading file:", err)
+	}
+
+	return triangles
+}
