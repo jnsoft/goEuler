@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	. "github.com/jnsoft/goEuler/src/funcs"
+	"github.com/jnsoft/goEuler/src/geohelper"
 	"github.com/jnsoft/jngo/bag"
 )
 
@@ -41,9 +42,25 @@ func main() {
 		return SumSquareDiff(100), nil
 	})
 
-	Point p1 = new {-340,495}
+	p1 := geohelper.Point{X: -340, Y: 495}
+	p2 := geohelper.Point{-153, -910}
+	p3 := geohelper.Point{X: 835, Y: -947}
 
-	
+	// Print the Points
+	fmt.Println(p1)
+	fmt.Println(p2)
+	fmt.Println(p3)
+
+	points := []geohelper.Point{
+		{X: -340, Y: 495},
+		{X: -153, Y: -910},
+		{X: 835, Y: -947},
+	}
+
+	minX, maxX, minY, maxY := findGridBoundaries(points)
+	grid := createGrid(minX, maxX, minY, maxY)
+	placePointsOnGrid(grid, points, minX, maxX, minY, maxY)
+	printGrid(grid)
 
 	//res := IsPerfectDivisible(20)
 	//fmt.Printf("Res %v", res)

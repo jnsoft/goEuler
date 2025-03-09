@@ -135,27 +135,3 @@ func rangeSlice(a, b int) []int {
     return slice
 }
 
-type Point struct { X, Y float64 }
-
-func isLeft(p1, p2, p Point) float64 {
-    return (p2.X-p1.X)*(p.Y-p1.Y) - (p.X-p1.X)*(p2.Y-p1.Y)
-}
-
-func ContainsOrigo(points []Point) bool {
-    windingNumber := 0
-
-    for i := 0; i < len(points); i++ {
-        next := (i + 1) % len(points)
-        if points[i].Y <= 0 {
-            if points[next].Y > 0 && isLeft(points[i], points[next], Point{0, 0}) > 0 {
-                windingNumber++
-            }
-        } else {
-            if points[next].Y <= 0 && isLeft(points[i], points[next], Point{0, 0}) < 0 {
-                windingNumber--
-            }
-        }
-    }
-
-    return windingNumber != 0
-}
