@@ -204,6 +204,22 @@ func IsMultiPolygonalNumer(n int) []bool {
 	return ns
 }
 
+func IsMultiPolygonalNumer2(n int) bool {
+	ns := make([]bool, 0)
+	ns = append(ns, FindPolygonalNumberIx(n, TriangularNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, SquareNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, PentagonalNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, HexagonalNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, HeptagonalNumber) != 0)
+	ns = append(ns, FindPolygonalNumberIx(n, OctagonalNumber) != 0)
+	return misc.Reduce(ns, func(a int, b bool) int {
+		if b {
+			return a + 1
+		}
+		return a
+	}, 0) > 0
+}
+
 type PolygonalNumberFunc func(int) int
 
 func FindPolygonalNumberIx(n int, fn PolygonalNumberFunc) int {
@@ -258,7 +274,7 @@ func boolsToString(bools []bool) string {
 	return builder.String()
 }
 
-func findPath(matrix []string) []int {
+func FindPath(matrix []string) []int {
 	rows := len(matrix)
 	cols := len(matrix[0])
 	path := make([]int, rows)

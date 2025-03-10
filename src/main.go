@@ -59,10 +59,16 @@ func main() {
 	funcs.IsMultiPolygonalNumers(8128, 2882, 8281, 0, 0, 0)
 	// secondLastDigit := (n / 10) % 10 // != 0
 
-	for i := 1010; i < 10000; i++ {
+	for i := 1010; i < 10000-8000; i++ {
+		if !IsMultiPolygonalNumer2(i) {
+			continue
+		}
 		a, b := GetLargestAndSmalles(i)
 		for j := a; j <= b; j++ {
 			if i == j {
+				continue
+			}
+			if !IsMultiPolygonalNumer2(j) {
 				continue
 			}
 			c, d := GetLargestAndSmalles(j)
@@ -70,9 +76,15 @@ func main() {
 				if j == k || i == k {
 					continue
 				}
+				if !IsMultiPolygonalNumer2(k) {
+					continue
+				}
 				e, f := GetLargestAndSmalles(k)
 				for l := e; l <= f; l++ {
 					if l == k || l == j || l == i {
+						continue
+					}
+					if !IsMultiPolygonalNumer2(l) {
 						continue
 					}
 					g, h := GetLargestAndSmalles(l)
@@ -80,15 +92,23 @@ func main() {
 						if m == l || m == k || m == j || m == i {
 							continue
 						}
+						if !IsMultiPolygonalNumer2(m) {
+							continue
+						}
 						x, y := GetLargestAndSmalles(m)
 						for n := x; n <= y; n++ {
 							if m == n || n == k || n == j || n == i || n == l {
 								continue
 							}
-							if CompareDigits(n, i) {
-								println(i, j, k, l, m, n)
+							if !CompareDigits(n, i) {
+								continue
 							}
-							
+							if IsMultiPolygonalNumer2(n) {
+								if IsMultiPolygonalNumers(i, j, k, l, m, n) {
+									println(i, j, k, l, m, n)
+								}
+
+							}
 
 						}
 
