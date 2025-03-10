@@ -175,22 +175,22 @@ func IsMultiPolygonalNumers(a, b, c, d, e, f int) bool {
 	t1 := IsMultiPolygonalNumer(a)
 	t2 := IsMultiPolygonalNumer(b)
 	t3 := IsMultiPolygonalNumer(c)
-	//t4 := IsMultiPolygonalNumer(d)
-	//t5 := IsMultiPolygonalNumer(e)
-	//t6 := IsMultiPolygonalNumer(f)
+	t4 := IsMultiPolygonalNumer(d)
+	t5 := IsMultiPolygonalNumer(e)
+	t6 := IsMultiPolygonalNumer(f)
 
 	rows := make([]string, 0)
 	rows = append(rows, boolsToString(t1))
 	rows = append(rows, boolsToString(t2))
 	rows = append(rows, boolsToString(t3))
-	//rows = append(rows, boolsToString(t4))
-	//rows = append(rows, boolsToString(t5))
-	//rows = append(rows, boolsToString(t6))
+	rows = append(rows, boolsToString(t4))
+	rows = append(rows, boolsToString(t5))
+	rows = append(rows, boolsToString(t6))
 
 	path := findPath(rows)
-	fmt.Println(rows)
-	fmt.Println(path)
-	return false
+	//fmt.Println(rows)
+	//fmt.Println(path)
+	return len(path) > 0
 }
 
 func IsMultiPolygonalNumer(n int) []bool {
@@ -274,7 +274,7 @@ func boolsToString(bools []bool) string {
 	return builder.String()
 }
 
-func FindPath(matrix []string) []int {
+func findPath(matrix []string) []int {
 	rows := len(matrix)
 	cols := len(matrix[0])
 	path := make([]int, rows)
