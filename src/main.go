@@ -7,7 +7,6 @@ import (
 	. "github.com/jnsoft/goEuler/src/funcs"
 	"github.com/jnsoft/jngo/bag"
 	"github.com/jnsoft/jngo/geohelper"
-	"github.com/jnsoft/jngo/misc"
 )
 
 func main() {
@@ -57,15 +56,38 @@ func main() {
 
 	//ns := []int{8128, 2882, 8281}
 
-	t1 := funcs.IsMultiPolygonalNumer(8128)
+	funcs.IsMultiPolygonalNumers(8128, 2882, 8281, 0, 0, 0)
+	// secondLastDigit := (n / 10) % 10 // != 0
 
-	c1 := misc.Reduce(t1, func(count int, value bool) int {
-		if value {
-			return count + 1
+	for i := 1010; i < 10000; i++ {
+		a, b := GetLargestAndSmalles(i)
+		for j := a; j <= b; j++ {
+			if i == j {
+				continue
+			}
+			c, d := GetLargestAndSmalles(j)
+			for k := c; k <= d; k++ {
+				if j == k || i == k {
+					continue
+				}
+				e, f := GetLargestAndSmalles(j)
+				for l := e; l <= f; l++ {
+					if l == k || l == j || l == i {
+						continue
+					}
+					g, h := GetLargestAndSmalles(j)
+					for m := g; m <= h; m++ {
+						if m == l || m == k || m == j || m == i {
+							continue
+						}
+						println(i, j, k, l)
+
+					}
+
+				}
+
+			}
 		}
-		return count
-	}, 0)
-
-	print(c1)
+	}
 
 }

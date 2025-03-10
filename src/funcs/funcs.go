@@ -172,20 +172,24 @@ func ReadPoints(fileName string) [][]geohelper.Point {
 }
 
 func IsMultiPolygonalNumers(a, b, c, d, e, f int) bool {
-	ns := make([]int, 0)
-	ns = append(ns, FindPolygonalNumberIx(a, TriangularNumber))
-	ns = append(ns, FindPolygonalNumberIx(b, SquareNumber))
-	ns = append(ns, FindPolygonalNumberIx(c, PentagonalNumber))
-	//ns = append(ns, FindPolygonalNumberIx(d, HexagonalNumber))
-	//ns = append(ns, FindPolygonalNumberIx(e, HeptagonalNumber))
-	//ns = append(ns, FindPolygonalNumberIx(f, OctagonalNumber))
+	t1 := IsMultiPolygonalNumer(a)
+	t2 := IsMultiPolygonalNumer(b)
+	t3 := IsMultiPolygonalNumer(c)
+	//t4 := IsMultiPolygonalNumer(d)
+	//t5 := IsMultiPolygonalNumer(e)
+	//t6 := IsMultiPolygonalNumer(f)
 
-	if misc.Fold(ns, func(a, b int) int { return a * b }, 1) != 0 {
-		if !misc.HasDuplicates(ns) {
-			return true
-		}
-	}
+	rows := make([]string, 0)
+	rows = append(rows, boolsToString(t1))
+	rows = append(rows, boolsToString(t2))
+	rows = append(rows, boolsToString(t3))
+	//rows = append(rows, boolsToString(t4))
+	//rows = append(rows, boolsToString(t5))
+	//rows = append(rows, boolsToString(t6))
 
+	path := findPath(rows)
+	fmt.Println(rows)
+	fmt.Println(path)
 	return false
 }
 
@@ -238,4 +242,58 @@ func HeptagonalNumber(n int) int {
 
 func OctagonalNumber(n int) int {
 	return n * (3*n - 2)
+}
+
+func boolsToString(bools []bool) string {
+	var builder strings.Builder
+
+	for _, value := range bools {
+		if value {
+			builder.WriteString("1")
+		} else {
+			builder.WriteString("0")
+		}
+	}
+
+	return builder.String()
+}
+
+func findPath(matrix []string) []int {
+	rows := len(matrix)
+	cols := len(matrix[0])
+	path := make([]int, rows)
+	visited := make([]bool, cols)
+
+	for i := 0; i < rows; i++ {
+		found := false
+		for j := 0; j < cols; j++ {
+			if matrix[i][j] == '1' && !visited[j] {
+				path[i] = j + 1 // Store the column index (1-based)
+				visited[j] = true
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil // No valid path found
+		}
+	}
+
+	return path
+}
+
+// check four digit numbers if the last two digits of num1 matches the first two digits of num2
+func compareDigits(num1, num2 int) bool {
+	// Extract the last two digits of num1
+	lastTwoDigitsNum1 := num1 % 100
+
+	// Extract the first two digits of num2
+	firstTwoDigitsNum2 := num2 / 100
+
+	return lastTwoDigitsNum1 == firstTwoDigitsNum2
+}
+
+func GetLargestAndSmalles(n int) (int, int) {
+
+	return (n/100)*100 + 10, (n/100)*100 + 99
 }
