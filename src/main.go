@@ -70,17 +70,27 @@ func main() {
 				if j == k || i == k {
 					continue
 				}
-				e, f := GetLargestAndSmalles(j)
+				e, f := GetLargestAndSmalles(k)
 				for l := e; l <= f; l++ {
 					if l == k || l == j || l == i {
 						continue
 					}
-					g, h := GetLargestAndSmalles(j)
+					g, h := GetLargestAndSmalles(l)
 					for m := g; m <= h; m++ {
 						if m == l || m == k || m == j || m == i {
 							continue
 						}
-						println(i, j, k, l)
+						x, y := GetLargestAndSmalles(m)
+						for n := x; n <= y; n++ {
+							if m == n || n == k || n == j || n == i || n == l {
+								continue
+							}
+							if CompareDigits(n, i) {
+								println(i, j, k, l, m, n)
+							}
+							
+
+						}
 
 					}
 

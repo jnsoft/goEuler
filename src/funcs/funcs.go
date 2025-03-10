@@ -283,7 +283,7 @@ func findPath(matrix []string) []int {
 }
 
 // check four digit numbers if the last two digits of num1 matches the first two digits of num2
-func compareDigits(num1, num2 int) bool {
+func CompareDigits(num1, num2 int) bool {
 	// Extract the last two digits of num1
 	lastTwoDigitsNum1 := num1 % 100
 
@@ -295,5 +295,5 @@ func compareDigits(num1, num2 int) bool {
 
 func GetLargestAndSmalles(n int) (int, int) {
 
-	return (n/100)*100 + 10, (n/100)*100 + 99
+	return (n%100)*100 + 10, (n%100)*100 + 99
 }
