@@ -59,10 +59,11 @@ func main() {
 	funcs.IsMultiPolygonalNumers(8128, 2882, 8281, 0, 0, 0)
 	// secondLastDigit := (n / 10) % 10 // != 0
 
-	for i := 1010; i < 10000-8000; i++ {
+	for i := 1010; i < 10000; i++ {
 		if !IsMultiPolygonalNumer2(i) {
 			continue
 		}
+		println(i)
 		a, b := GetLargestAndSmalles(i)
 		for j := a; j <= b; j++ {
 			if i == j {
@@ -107,7 +108,7 @@ func main() {
 								if IsMultiPolygonalNumers(i, j, k, l, m, n) {
 									println(i, j, k, l, m, n)
 								}
-
+								//println(i, j, k, l, m, n)
 							}
 
 						}

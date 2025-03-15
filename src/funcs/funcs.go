@@ -220,6 +220,14 @@ func IsMultiPolygonalNumer2(n int) bool {
 	}, 0) > 0
 }
 
+func IsMultiPolygonalNumer3(n int) int {
+	res := 0
+	if isSquare(n) {
+		return setBit(1,res)
+	}
+	return checkBits(6,)
+}
+
 type PolygonalNumberFunc func(int) int
 
 func FindPolygonalNumberIx(n int, fn PolygonalNumberFunc) int {
@@ -311,5 +319,27 @@ func CompareDigits(num1, num2 int) bool {
 
 func GetLargestAndSmalles(n int) (int, int) {
 
+	println((n%100)*100 + 10)
+	println((n%100)*100 + 99)
+
 	return (n%100)*100 + 10, (n%100)*100 + 99
+}
+
+func isSquare(n int) bool {
+	if n < 0 {
+		return false
+	}
+	sqrt := int(math.Sqrt(float64(n)))
+	return sqrt*sqrt == n
+}
+
+func setBit(position int, n int) int {
+	return n | (1 << (position - 1))
+}
+
+func checkBits(length int, n int) bool {
+	// Create a mask with the last length bits set to 1
+	mask := (1 << length) - 1
+	// Check if the last length bits of n match the mask
+	return (n & mask) == mask
 }
