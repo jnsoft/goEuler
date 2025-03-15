@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	. "github.com/jnsoft/goEuler/src/funcs"
+	"github.com/jnsoft/goEuler/src/lists"
 	"github.com/jnsoft/jngo/bag"
 	"github.com/jnsoft/jngo/geohelper"
 )
@@ -57,19 +58,19 @@ func main() {
 		return BruteForce61(), nil
 	})
 
-	node3 := &ListNode{Val: 4, Next: nil}   // Last node
-	node2 := &ListNode{Val: 2, Next: node3} // Second node
-	node1 := &ListNode{Val: 1, Next: node2} // First node (head)
+	node3 := &lists.Node[int]{Val: 4, Next: nil}   // Last node
+	node2 := &lists.Node[int]{Val: 2, Next: node3} // Second node
+	node1 := &lists.Node[int]{Val: 1, Next: node2} // First node (head)
 
-	node6 := &ListNode{Val: 4, Next: nil}   // Last node
-	node5 := &ListNode{Val: 3, Next: node6} // Second node
-	node4 := &ListNode{Val: 1, Next: node5} // First node (head)
+	node6 := &lists.Node[int]{Val: 4, Next: nil}   // Last node
+	node5 := &lists.Node[int]{Val: 3, Next: node6} // Second node
+	node4 := &lists.Node[int]{Val: 1, Next: node5} // First node (head)
 
-	lists := make([]*ListNode, 2)
-	lists[0] = node1
-	lists[1] = node4
+	ls := make([]*lists.Node[int], 2)
+	ls[0] = node1
+	ls[1] = node4
 	TimeFunction("Answer", func() (interface{}, error) {
-		return MergeKLists(lists), nil
+		return lists.MergeKLists(ls), nil
 	})
 
 	return
