@@ -57,6 +57,13 @@ func main() {
 		return BruteForce61(), nil
 	})
 
+	strs := []string{"flower", "flow", "flight"}
+	TimeFunction("Answer", func() (interface{}, error) {
+		return LongestCommonPrefix(strs), nil
+	})
+
+	return
+
 	best := 0
 	for q_root := 10; q_root < 200; q_root++ {
 		qube := q_root * q_root * q_root
@@ -100,9 +107,7 @@ func main() {
 		}
 	}
 	println(res)
-	println(res*res*res)
-
-	
+	println(res * res * res)
 
 }
 

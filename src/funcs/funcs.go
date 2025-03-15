@@ -717,3 +717,142 @@ func FindSmallest(nums []int) int {
 	}
 	return smallest
 }
+
+// AACCGGTT
+
+//Input: startGene = "AACCGGTT", endGene = "AAACGGTA", bank = ["AACCGGTA","AACCGCTA","AAACGGTA"]
+//Output: 2
+
+func MinMutation(startGene string, endGene string, bank []string) int {
+	//steps := findSteps(startGene, endGene, bank, 0)
+	steps := bfsShortestPath(startGene, endGene, bank)
+	return steps
+
+}
+
+func getCandidates(input string, bank []string) []string {
+	candidates := []string{}
+
+	for _, word := range bank {
+		if len(word) != len(input) {
+			continue
+		}
+
+		diffCount := 0
+		for i := range input {
+			if input[i] != word[i] {
+				diffCount++
+			}
+			if diffCount > 1 {
+				break
+			}
+		}
+
+		if diffCount == 1 {
+			candidates = append(candidates, word)
+		}
+	}
+
+	return candidates
+}
+
+func bfsShortestPath(startGene string, endGene string, bank []string) int {
+	// Use a queue for BFS
+	queue := &Queue{}
+	queue.Enqueue(startGene)
+
+	// Track visited nodes to avoid revisiting
+	visited := map[string]bool{}
+	visited[startGene] = true
+
+	// Count steps (levels in BFS)
+	steps := 0
+
+	for queue.Len() > 0 {
+		size := queue.Len()
+
+		// Process all nodes at the current level
+		for i := 0; i < size; i++ {
+			current, _ := queue.Dequeue()
+
+			// If we reach the endGene, return the number of steps
+			if current == endGene {
+				return steps
+			}
+
+			// Get all neighbors (candidates differing by 1 character)
+			candidates := getCandidates(current, bank)
+			for _, candidate := range candidates {
+				if !visited[candidate] {
+					visited[candidate] = true
+					queue.Enqueue(candidate)
+				}
+			}
+		}
+
+		// Increment the step count after processing the current level
+		steps++
+	}
+
+	// If we exhaust the queue without finding the endGene, return -1
+	return -1
+}
+
+type Queue struct {
+	elements []string
+}
+
+func (q *Queue) Enqueue(value string) {
+	q.elements = append(q.elements, value)
+}
+
+func (q *Queue) Dequeue() (string, bool) {
+	if len(q.elements) == 0 {
+		return "", false
+	}
+	front := q.elements[0]
+	q.elements = q.elements[1:]
+	return front, true
+}
+
+func (q *Queue) IsEmpty() bool {
+	return len(q.elements) == 0
+}
+
+func (q *Queue) Len() int {
+	return len(q.elements)
+}
+
+func MaxArea(height []int) int {
+	best := 0
+	for i := 0; i < len(height); i++ {
+		if getArea(height[i], height[i], len(height)-i) > best {
+			for j := i + 1; j < len(height); j++ {
+				fmt.Printf("i: %d, j: %d\n", height[i], height[j])
+				area := getArea(height[i], height[j], j-i)
+				if area > best {
+					best = area
+				}
+			}
+		}
+	}
+	return best
+}
+
+func getMin(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
+}
+
+func getArea(h1, h2, dist int) int {
+	h := getMin(h1, h2)
+	return h * dist
+}
+
+func LongestCommonPrefix(strs []string) string {
+	res := ""
+
+	return res
+}

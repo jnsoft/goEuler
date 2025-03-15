@@ -1,6 +1,4 @@
-github.com/jnsoft/jngo v0.0.0-20250202153851-ae296cecc84a h1:3FfS4ew3pbhkaOEs8oWkb8pFMvJz6r3SEFQdzB38C14=
-github.com/jnsoft/jngo v0.0.0-20250202153851-ae296cecc84a/go.mod h1:hPcqKS7WmmJuWJpErDPHP3jLA2S+phgJVjHA1/EN9RY=
-github.com/jnsoft/jngo v0.0.0-20250306175723-e1bf78f1fc4d h1:oYzASxV4MEgo0ISU2jv5YIV7I9J+DRZkdcleBGjHFYA=
-github.com/jnsoft/jngo v0.0.0-20250306175723-e1bf78f1fc4d/go.mod h1:hPcqKS7WmmJuWJpErDPHP3jLA2S+phgJVjHA1/EN9RY=
-github.com/jnsoft/jngo v0.0.0-20250309224627-fd0213230a2b h1:IsQ1csjdmVqvP4zjo1ZFKiPjNAbgupQLdwtGCPTAl6I=
-github.com/jnsoft/jngo v0.0.0-20250309224627-fd0213230a2b/go.mod h1:hPcqKS7WmmJuWJpErDPHP3jLA2S+phgJVjHA1/EN9RY=
+github.com/jnsoft/jngo v0.0.0-20250315162052-b77a123329f9 h1:SoadkZfUVdCBXSb9BzhKGPq/AeogwiQs8PTjrTT1TNw=
+github.com/jnsoft/jngo v0.0.0-20250315162052-b77a123329f9/go.mod h1:hPcqKS7WmmJuWJpErDPHP3jLA2S+phgJVjHA1/EN9RY=
+github.com/jnsoft/jngo v0.0.0-20250315163012-276062e5aa58 h1:br6qcffL26s1K8vsv3Uz4KNbL2nFtZe6hasgL64dqNU=
+github.com/jnsoft/jngo v0.0.0-20250315163012-276062e5aa58/go.mod h1:hPcqKS7WmmJuWJpErDPHP3jLA2S+phgJVjHA1/EN9RY=
