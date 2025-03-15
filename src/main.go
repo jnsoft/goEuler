@@ -57,9 +57,19 @@ func main() {
 		return BruteForce61(), nil
 	})
 
-	strs := []string{"flower", "flow", "flight"}
+	node3 := &ListNode{Val: 4, Next: nil}   // Last node
+	node2 := &ListNode{Val: 2, Next: node3} // Second node
+	node1 := &ListNode{Val: 1, Next: node2} // First node (head)
+
+	node6 := &ListNode{Val: 4, Next: nil}   // Last node
+	node5 := &ListNode{Val: 3, Next: node6} // Second node
+	node4 := &ListNode{Val: 1, Next: node5} // First node (head)
+
+	lists := make([]*ListNode, 2)
+	lists[0] = node1
+	lists[1] = node4
 	TimeFunction("Answer", func() (interface{}, error) {
-		return LongestCommonPrefix(strs), nil
+		return MergeKLists(lists), nil
 	})
 
 	return

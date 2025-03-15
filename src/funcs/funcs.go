@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jnsoft/goEuler/src/trie"
 	"github.com/jnsoft/jngo/geohelper"
 	"github.com/jnsoft/jngo/inthelper"
 	"github.com/jnsoft/jngo/misc"
@@ -853,10 +852,184 @@ func getArea(h1, h2, dist int) int {
 }
 
 func LongestCommonPrefix(strs []string) string {
-	t := trie.NewTrie[int]()
-	for ix, s := range strs {
-		t.Put(s, &ix)
+	if len(strs) == 0 {
+		return ""
 	}
-	prefix := t.LongestPrefix()
-	return prefix
+	if len(strs) == 1 {
+		return strs[0]
+	}
+	longest := longestCommonPrefix(strs[0], strs[1])
+	for i := 1; i < len(strs); i++ {
+		prefix := longestCommonPrefix(strs[i], longest)
+		if len(prefix) < len(longest) {
+			longest = prefix
+		}
+	}
+	return longest
+}
+
+func longestCommonPrefix(str1, str2 string) string {
+	minLength := len(str1)
+	if len(str2) < minLength {
+		minLength = len(str2)
+	}
+
+	var prefix []rune
+	for i := 0; i < minLength; i++ {
+		if str1[i] != str2[i] {
+			break
+		}
+		prefix = append(prefix, rune(str1[i]))
+	}
+
+	return string(prefix)
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func MergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	head := &ListNode{}
+	var cur *ListNode
+	cur = head
+	go1 := list1 != nil
+	go2 := list2 != nil
+	if !go1 && !go2 {
+		return nil
+	}
+	for {
+		if !go2 {
+			cur.Val = list1.Val
+			if list1.Next != nil {
+				list1 = list1.Next
+			} else {
+				go1 = false
+			}
+		} else if !go1 {
+			cur.Val = list2.Val
+			if list2.Next != nil {
+				list2 = list2.Next
+			} else {
+				go2 = false
+			}
+		} else if list1.Val < list2.Val {
+			cur.Val = list1.Val
+			if list1.Next != nil {
+				list1 = list1.Next
+			} else {
+				go1 = false
+			}
+		} else {
+			cur.Val = list2.Val
+			if list2.Next != nil {
+				list2 = list2.Next
+			} else {
+				go2 = false
+			}
+		}
+		if go1 || go2 {
+			cur.Next = &ListNode{}
+			cur = cur.Next
+		} else {
+			break
+		}
+	}
+	return head
+
+}
+
+func MergeKLists2(lists []*ListNode) *ListNode {
+	if lists == nil || len(lists) == 0 {
+		return nil
+	}
+
+	head := &ListNode{}
+	var cur *ListNode
+	cur = head
+	for {
+		all_nil := true
+		min := 1000000
+		min_ix := 0
+		for ix, val := range lists {
+			if val != nil && val.Val < min {
+				all_nil = false
+				min = val.Val
+				min_ix = ix
+			}
+		}
+		if !all_nil {
+			cur.Val = lists[min_ix].Val
+			if lists[min_ix] != nil {
+				lists[min_ix] = lists[min_ix].Next
+			}
+		} else {
+			break
+		}
+
+		cur.Next = &ListNode{}
+		cur = cur.Next
+
+	}
+	head = removeLast(head)
+	return head
+}
+
+func removeLast(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+	if head.Next == nil {
+		return nil
+	}
+	current := head
+	for current.Next.Next != nil {
+		current = current.Next
+	}
+	current.Next = nil
+
+	return head
+}
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func MergeKLists(lists []*ListNode) *ListNode {
+	if lists == nil {
+		return nil
+	}
+
+	if len(lists) == 0 {
+		return nil
+	}
+
+	if len(lists) == 1 {
+		return lists[0]
+	}
+
+	mid := len(lists) / 2
+	return merge(MergeKLists(lists[0:mid]), MergeKLists(lists[mid:]))
+}
+
+func merge(a *ListNode, b *ListNode) *ListNode {
+	if a == nil {
+		return b
+	}
+
+	if b == nil {
+		return a
+	}
+
+	if a.Val <= b.Val {
+		a.Next = merge(a.Next, b)
+		return a
+	} else {
+		b.Next = merge(a, b.Next)
+		return b
+	}
 }
