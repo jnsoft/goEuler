@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -179,6 +180,67 @@ func IsMultiPolygonalNumers(a, b, c, d, e, f int) bool {
 	t5 := IsMultiPolygonalNumer(e)
 	t6 := IsMultiPolygonalNumer(f)
 
+	if reflect.DeepEqual(t1, t2) &&
+		len(misc.Filter(t1, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t1, t3) &&
+		len(misc.Filter(t1, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t1, t4) &&
+		len(misc.Filter(t1, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t1, t5) &&
+		len(misc.Filter(t1, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t1, t6) &&
+		len(misc.Filter(t1, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t2, t3) &&
+		len(misc.Filter(t2, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t2, t4) &&
+		len(misc.Filter(t2, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t2, t5) &&
+		len(misc.Filter(t2, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t2, t6) &&
+		len(misc.Filter(t2, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t3, t4) &&
+		len(misc.Filter(t3, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t3, t5) &&
+		len(misc.Filter(t3, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t3, t6) &&
+		len(misc.Filter(t3, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t4, t5) &&
+		len(misc.Filter(t4, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t4, t6) &&
+		len(misc.Filter(t4, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+	if reflect.DeepEqual(t5, t6) &&
+		len(misc.Filter(t5, func(b bool) bool { return b })) == 1 {
+		return false
+	}
+
 	rows := make([]string, 0)
 	rows = append(rows, boolsToString(t1))
 	rows = append(rows, boolsToString(t2))
@@ -187,9 +249,10 @@ func IsMultiPolygonalNumers(a, b, c, d, e, f int) bool {
 	rows = append(rows, boolsToString(t5))
 	rows = append(rows, boolsToString(t6))
 
-	path := findPath(rows)
 	//fmt.Println(rows)
-	//fmt.Println(path)
+	path := findPath(rows)
+
+	fmt.Println(path)
 	return len(path) > 0
 }
 
@@ -218,14 +281,6 @@ func IsMultiPolygonalNumer2(n int) bool {
 		}
 		return a
 	}, 0) > 0
-}
-
-func IsMultiPolygonalNumer3(n int) int {
-	res := 0
-	if isSquare(n) {
-		return setBit(1,res)
-	}
-	return checkBits(6,)
 }
 
 type PolygonalNumberFunc func(int) int
@@ -319,10 +374,22 @@ func CompareDigits(num1, num2 int) bool {
 
 func GetLargestAndSmalles(n int) (int, int) {
 
-	println((n%100)*100 + 10)
-	println((n%100)*100 + 99)
+	if n < 1000 {
+		return 0, 0
+	}
+	//println((n%100)*100 + 10)
+	//println((n%100)*100 + 99)
 
 	return (n%100)*100 + 10, (n%100)*100 + 99
+}
+
+func isTri(n int) bool {
+	// Coefficients for the quadratic equation n^2 + n - 2i = 0
+	a := 1
+	b := 1
+	c := -2 * n
+	res, _ := hasPositiveIntegerSolution(a, b, c)
+	return res
 }
 
 func isSquare(n int) bool {
@@ -333,13 +400,135 @@ func isSquare(n int) bool {
 	return sqrt*sqrt == n
 }
 
-func setBit(position int, n int) int {
-	return n | (1 << (position - 1))
+func isPent(n int) bool {
+	// Coefficients for the quadratic equation 3n^2 - n - 2i = 0
+	a := 3
+	b := -1
+	c := -2 * n
+	res, _ := hasPositiveIntegerSolution(a, b, c)
+	return res
 }
 
-func checkBits(length int, n int) bool {
-	// Create a mask with the last length bits set to 1
-	mask := (1 << length) - 1
-	// Check if the last length bits of n match the mask
-	return (n & mask) == mask
+func isHexa(n int) bool {
+	// Coefficients for the quadratic equation 2n^2 - n - i = 0
+	a := 2
+	b := -1
+	c := -n
+	res, _ := hasPositiveIntegerSolution(a, b, c)
+	return res
+}
+
+func isHept(n int) bool {
+	// Coefficients for the quadratic equation 5n^2 - 3n - 2i = 0
+	a := 5
+	b := -3
+	c := -2 * n
+	res, _ := hasPositiveIntegerSolution(a, b, c)
+	return res
+}
+
+func isOcta(n int) bool {
+	// Coefficients for the quadratic equation 3n^2 - 2n - i = 0
+	a := 3
+	b := -2
+	c := -n
+	res, _ := hasPositiveIntegerSolution(a, b, c)
+	return res
+}
+
+// checks if a*x^2 + b*x + c = 0 has a positive integer solution
+func hasPositiveIntegerSolution(a, b, c int) (bool, int) {
+	if a == 0 {
+		return false, 0 // Not a quadratic equation if a == 0
+	}
+
+	discriminant := b*b - 4*a*c
+	if discriminant < 0 {
+		return false, 0 // No real roots
+	}
+
+	// Compute the roots
+	sqrtDiscriminant := math.Sqrt(float64(discriminant))
+	if sqrtDiscriminant != float64(int(sqrtDiscriminant)) {
+		return false, 0 // Discriminant is not a perfect square, no integer roots
+	}
+
+	// Calculate both roots
+	root1 := (-b + int(sqrtDiscriminant)) / (2 * a)
+	root2 := (-b - int(sqrtDiscriminant)) / (2 * a)
+
+	// Check for positive integer solutions
+	if root1 > 0 {
+		return true, root1
+	}
+	if root2 > 0 {
+		return true, root2
+	}
+
+	return false, 0 // No positive integer solutions
+}
+
+func BruteForce61() int {
+	for i := 1010; i < 10000; i++ {
+		if !IsMultiPolygonalNumer2(i) {
+			continue
+		}
+		a, b := GetLargestAndSmalles(i)
+		for j := a; j <= b; j++ {
+			if i == j {
+				continue
+			}
+			if !IsMultiPolygonalNumer2(j) {
+				continue
+			}
+			c, d := GetLargestAndSmalles(j)
+			for k := c; k <= d; k++ {
+				if j == k || i == k {
+					continue
+				}
+				if !IsMultiPolygonalNumer2(k) {
+					continue
+				}
+				e, f := GetLargestAndSmalles(k)
+				for l := e; l <= f; l++ {
+					if l == k || l == j || l == i {
+						continue
+					}
+					if !IsMultiPolygonalNumer2(l) {
+						continue
+					}
+					g, h := GetLargestAndSmalles(l)
+					for m := g; m <= h; m++ {
+						if m == l || m == k || m == j || m == i {
+							continue
+						}
+						if !IsMultiPolygonalNumer2(m) {
+							continue
+						}
+						x, y := GetLargestAndSmalles(m)
+						for n := x; n <= y; n++ {
+							if m == n || n == k || n == j || n == i || n == l {
+								continue
+							}
+							if !CompareDigits(n, i) {
+								continue
+							}
+							if IsMultiPolygonalNumer2(n) {
+								//								fmt.Printf("%d, %d, %d, %d, %d, %d\n", i, j, k, l, m, n)
+								if IsMultiPolygonalNumers(i, j, k, l, m, n) {
+									//println(i, j, k, l, m, n)
+									//println(i+j+k+l+m+n)
+									return i + j + k + l + m + n
+								}
+							}
+						}
+
+					}
+
+				}
+
+			}
+		}
+	}
+	panic("not found")
 }
