@@ -703,3 +703,17 @@ func FindPermutations(numbers []int) map[string][]int {
 	}
 	return permutations
 }
+
+func FindSmallest(nums []int) int {
+	if len(nums) == 0 {
+		panic("slice is empty") // Handle empty slice case
+	}
+
+	smallest := nums[0]
+	for _, num := range nums[1:] {
+		if num < smallest {
+			smallest = num
+		}
+	}
+	return smallest
+}

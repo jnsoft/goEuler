@@ -71,8 +71,10 @@ func main() {
 		}
 	}
 
+	res := 1000000
+
 	// Step 1: Generate lots of cube numbers
-	maxCubeRoot := 20000 // Adjust this for more or fewer cubes
+	maxCubeRoot := 50000 // Adjust this for more or fewer cubes
 	cubes := GenerateCubes(maxCubeRoot)
 
 	// Step 2: Group cube numbers by their length
@@ -82,18 +84,25 @@ func main() {
 	for _, numbers := range groups {
 		permutations := FindPermutations(numbers)
 		for key, nums := range permutations {
-			if len(nums) > 3 && key[0] != '0'  { // Only print groups with actual permutations
+			if len(nums) == 4 && key[0] != '0' { // Only print groups with actual permutations
 				fmt.Printf("  Permutations of %s: %v\n", key, nums)
+				s := FindSmallest(nums)
+				test, s_qr := IsPerfectPower_copied(s, 3)
+				if test {
+					if s_qr < res {
+						res = s_qr
+					}
+					fmt.Printf("%d\n", s_qr)
+				} else {
+					println("wtf")
+				}
 			}
 		}
 	}
+	println(res)
+	println(res*res*res)
 
-	println(IsPerfectPower_copied(1426487591593   ,3))
-	println(IsPerfectPower_copied(1432197595648    ,3))
-	println(IsPerfectPower_copied(3496581419752    ,3))
-	println(IsPerfectPower_copied(4275981654391   ,3))
-	println(IsPerfectPower_copied(4813967954125    ,3))
-	println(IsPerfectPower_copied(7591941538264   ,3))
+	
 
 }
 
