@@ -49,11 +49,11 @@ func scalePoints(points []geohelper.Point, width, height int) ([]geohelper.Point
 	}
 
 	// Scale points
-	scaled := make([]Point, len(points))
+	scaled := make([]geohelper.Point, len(points))
 	for i, p := range points {
 		scaledX := (p.X - minX) / rangeX * float64(width-1)
 		scaledY := (p.Y - minY) / rangeY * float64(height-1)
-		scaled[i] = Point{X: scaledX, Y: scaledY}
+		scaled[i] = geohelper.Point{X: scaledX, Y: scaledY}
 	}
 
 	return scaled, minX, maxX, minY, maxY

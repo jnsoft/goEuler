@@ -6,6 +6,7 @@ import (
 	"math"
 	"os"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -79,21 +80,12 @@ func GetLargestPalindrome() int {
 	for n1 := 999; n1 > 99; n1-- {
 		for n2 := n1; n2 > 99; n2-- {
 			prd := n1 * n2
-			if prd == reverse(prd) {
+			if prd == inthelper.Reverse(prd) {
 				return prd
 			}
 		}
 	}
 	return -1
-}
-
-func reverse(n int) int {
-	rev := 0
-	for n > 0 {
-		rev = 10*rev + n%10
-		n = n / 10
-	}
-	return rev
 }
 
 func IsPerfectDivisible(no_of_divisors int) int {
@@ -252,7 +244,7 @@ func IsMultiPolygonalNumers(a, b, c, d, e, f int) bool {
 	//fmt.Println(rows)
 	path := findPath(rows)
 
-	fmt.Println(path)
+	//fmt.Println(path)
 	return len(path) > 0
 }
 
@@ -531,4 +523,183 @@ func BruteForce61() int {
 		}
 	}
 	panic("not found")
+}
+
+func IsPerfectPower_copied(n int, power int) (bool, int) {
+	if n < 0 && power%2 == 0 {
+		return false, 0 // Negative numbers cannot have real even roots
+	}
+	root := int(math.Round(math.Pow(float64(n), 1.0/float64(power))))
+	// Verify that root^power equals n
+	if int(math.Pow(float64(root), float64(power))) == n {
+		return true, root
+	}
+	return false, 0
+}
+
+// get all permutations of a number, ignore repeated digits in input number
+func GetUniquePermutations_cp(n int) []int {
+	str := strconv.Itoa(n)
+	digits := []rune(str)
+
+	// Use a map to prevent duplicates
+	permutationsSet := make(map[string]struct{})
+	permute_unique_cp(digits, 0, permutationsSet)
+
+	// Convert the map keys to integers
+	result := []int{}
+	for perm := range permutationsSet {
+		num, _ := strconv.Atoi(perm)
+		if len(str) == len(strconv.Itoa(num)) {
+			result = append(result, num)
+		}
+
+	}
+	return result
+}
+
+func GetQubePermutations(n int) []int {
+	str := strconv.Itoa(n)
+	digits := []rune(str)
+
+	permutationsSet := make(map[string]struct{})
+	permute_unique_cp(digits, 0, permutationsSet)
+
+	result := []int{}
+	for perm := range permutationsSet {
+		num, _ := strconv.Atoi(perm)
+		if len(str) == len(strconv.Itoa(num)) {
+			result = append(result, num)
+		}
+
+	}
+	return result
+}
+
+func permute_unique_cp(digits []rune, start int, permutationsSet map[string]struct{}) {
+	if start == len(digits)-1 {
+		permutationsSet[string(digits)] = struct{}{} // Add to map to avoid duplicates
+		return
+	}
+
+	for i := start; i < len(digits); i++ {
+		// Swap current element with the starting element
+		digits[start], digits[i] = digits[i], digits[start]
+
+		// Recursively generate permutations for the remaining digits
+		permute_unique_cp(digits, start+1, permutationsSet)
+
+		// Swap back to restore the original state
+		digits[start], digits[i] = digits[i], digits[start]
+	}
+}
+
+func GetPermutations_copied(n int) []int {
+	str := strconv.Itoa(n)
+	digits := []rune(str)
+
+	permutations := []string{}
+	permute_copied(digits, 0, &permutations)
+
+	result := []int{}
+	for _, perm := range permutations {
+		num, _ := strconv.Atoi(perm)
+		result = append(result, num)
+	}
+	return result
+}
+
+func permute_copied(digits []rune, start int, permutations *[]string) {
+	if start == len(digits)-1 {
+		*permutations = append(*permutations, string(digits))
+		return
+	}
+
+	for i := start; i < len(digits); i++ {
+		// Swap current element with the starting element
+		digits[start], digits[i] = digits[i], digits[start]
+
+		// Recursively generate permutations for the remaining digits
+		permute_copied(digits, start+1, permutations)
+
+		// Swap back to restore the original state
+		digits[start], digits[i] = digits[i], digits[start]
+	}
+}
+
+func Permutations_copied(arr []any) [][]any {
+	var result [][]any
+	generatePermutations_copied(arr, 0, &result)
+	return result
+}
+
+func generatePermutations_copied(arr []any, start int, result *[][]any) {
+	if start == len(arr)-1 {
+		// Append a copy of the current permutation to the result
+		temp := make([]any, len(arr))
+		copy(temp, arr)
+		*result = append(*result, temp)
+		return
+	}
+
+	for i := start; i < len(arr); i++ {
+		// Swap current element with the starting element
+		arr[start], arr[i] = arr[i], arr[start]
+
+		// Recursively generate permutations for the remaining elements
+		generatePermutations_copied(arr, start+1, result)
+
+		// Swap back to restore the original state
+		arr[start], arr[i] = arr[i], arr[start]
+	}
+}
+
+func No_of_cubes(arr []int) int {
+	res := 0
+	for i := 0; i < len(arr); i++ {
+		if ok, _ := IsPerfectPower_copied(arr[i], 3); ok {
+			res++
+		}
+
+	}
+	return res
+}
+
+func GenerateCubes(max int) []int {
+	cubes := []int{}
+	for i := 1; i <= max; i++ {
+		cube := i * i * i
+		cubes = append(cubes, cube)
+	}
+	return cubes
+}
+
+// Function to group numbers by their length
+func GroupByLength(cubes []int) map[int][]int {
+	groups := make(map[int][]int)
+	for _, cube := range cubes {
+		length := len(strconv.Itoa(cube)) // Get the number of digits
+		groups[length] = append(groups[length], cube)
+	}
+	return groups
+}
+
+// Helper function to sort digits of a number
+func sortDigits(n int) string {
+	str := strconv.Itoa(n)
+	digits := []rune(str)
+	sort.Slice(digits, func(i, j int) bool { return digits[i] < digits[j] })
+	return string(digits)
+}
+
+// Function to find permutations within a group
+func FindPermutations(numbers []int) map[string][]int {
+	permutations := make(map[string][]int)
+	for _, num := range numbers {
+		sorted := sortDigits(num) // Sort the digits to identify permutations
+		if len(sorted) == len(strconv.Itoa(num)) {
+			permutations[sorted] = append(permutations[sorted], num)
+		}
+	}
+	return permutations
 }

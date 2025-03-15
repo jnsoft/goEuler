@@ -57,4 +57,79 @@ func main() {
 		return BruteForce61(), nil
 	})
 
+	best := 0
+	for q_root := 10; q_root < 200; q_root++ {
+		qube := q_root * q_root * q_root
+		ns := GetUniquePermutations_cp(qube)
+		no_of_qubes := No_of_cubes(ns)
+		if no_of_qubes > best {
+			best = no_of_qubes
+			//fmt.Printf("Number: %d: %d cubes\n", q_root, no_of_qubes)
+		}
+		if q_root%10 == 0 {
+			//println(q_root)
+		}
+	}
+
+	// Step 1: Generate lots of cube numbers
+	maxCubeRoot := 20000 // Adjust this for more or fewer cubes
+	cubes := GenerateCubes(maxCubeRoot)
+
+	// Step 2: Group cube numbers by their length
+	groups := GroupByLength(cubes)
+
+	// Step 3: Process each group to find permutations
+	for _, numbers := range groups {
+		permutations := FindPermutations(numbers)
+		for key, nums := range permutations {
+			if len(nums) > 3 && key[0] != '0'  { // Only print groups with actual permutations
+				fmt.Printf("  Permutations of %s: %v\n", key, nums)
+			}
+		}
+	}
+
+	println(IsPerfectPower_copied(1426487591593   ,3))
+	println(IsPerfectPower_copied(1432197595648    ,3))
+	println(IsPerfectPower_copied(3496581419752    ,3))
+	println(IsPerfectPower_copied(4275981654391   ,3))
+	println(IsPerfectPower_copied(4813967954125    ,3))
+	println(IsPerfectPower_copied(7591941538264   ,3))
+
 }
+
+/*
+
+	// n := 41063625
+	//best_ress := make([]int, 0)
+	best_c := 0
+	best_q := 0
+	for i := 2; i < 10000; i++ {
+		test, _ := IsPerfectPower_copied(i, 3)
+		if !test {
+			continue
+		}
+		ns := GetUniquePermutations_cp(i)
+		c := 0
+		q := 0
+		ress := make([]int, 0)
+		for _, p := range ns {
+			res, n := IsPerfectPower_copied(p, 3)
+			if res {
+				q = n
+				c++
+				ress = append(ress, p)
+			}
+		}
+		if c > best_c {
+			//best_ress = ress
+			best_c = c
+			best_q = q
+			fmt.Printf("new best: %d, %d->%v\n", c,q, ress)
+		}
+
+	}
+	fmt.Printf("ans: %d\n", best_q)
+
+}
+
+*/
