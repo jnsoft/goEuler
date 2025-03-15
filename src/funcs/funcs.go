@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jnsoft/goEuler/src/trie"
 	"github.com/jnsoft/jngo/geohelper"
 	"github.com/jnsoft/jngo/inthelper"
 	"github.com/jnsoft/jngo/misc"
@@ -852,7 +853,10 @@ func getArea(h1, h2, dist int) int {
 }
 
 func LongestCommonPrefix(strs []string) string {
-	res := ""
-
-	return res
+	t := trie.NewTrie[int]()
+	for ix, s := range strs {
+		t.Put(s, &ix)
+	}
+	prefix := t.LongestPrefix()
+	return prefix
 }
