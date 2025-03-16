@@ -884,3 +884,28 @@ func longestCommonPrefix(str1, str2 string) string {
 
 	return string(prefix)
 }
+
+func RangeBitwiseAnd(left int, right int) int {
+	for left < right {
+		right &= right - 1
+	}
+	return right
+}
+
+func NextPermutation(nums []int) {
+	for i := len(nums) - 1; i > 0; i++ {
+		if nums[i] > nums[i-1] {
+			t := nums[i]
+			nums[i] = nums[i-1]
+			nums[i-1] = t
+		}
+	}
+}
+
+func combineInts(arr []int) int {
+	result := 0
+	for _, num := range arr {
+		result = result*10 + num
+	}
+	return result
+}
