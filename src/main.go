@@ -59,7 +59,7 @@ func main() {
 
 	//////////////////////////////////////////////////////////////////////
 
-	ints := []int{1, 2, 3}
+	ints := []int{3, 2, 1}
 	NextPermutation(ints)
 
 	TimeFunction("Answer", func() (interface{}, error) {

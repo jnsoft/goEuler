@@ -893,13 +893,18 @@ func RangeBitwiseAnd(left int, right int) int {
 }
 
 func NextPermutation(nums []int) {
-	for i := len(nums) - 1; i > 0; i++ {
+	length := len(nums)
+	for i := length - 1; i > 0; i-- {
 		if nums[i] > nums[i-1] {
 			t := nums[i]
 			nums[i] = nums[i-1]
 			nums[i-1] = t
+			return
 		}
 	}
+	t := nums[length-1]
+	nums[length-1] = nums[0]
+	nums[0] = t
 }
 
 func combineInts(arr []int) int {
