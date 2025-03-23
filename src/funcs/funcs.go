@@ -914,3 +914,151 @@ func combineInts(arr []int) int {
 	}
 	return result
 }
+
+type (
+	Stack struct {
+		head   *node
+		length int
+	}
+	node struct {
+		value []int
+		sum   int
+		prev  *node
+	}
+)
+
+func (s *Stack) IsEmpty() bool { return s.length == 0 }
+
+func (s *Stack) Pop() ([]int, int) {
+	if s.length == 0 {
+		panic("stack underflow")
+	}
+
+	n := s.head
+	s.head = n.prev
+	s.length--
+	return n.value, n.sum
+}
+func (s *Stack) Push(value []int, sum int) {
+	n := &node{value, sum, s.head}
+	s.head = n
+	s.length++
+}
+
+func quickSort(arr []int) {
+	if len(arr) < 2 {
+		return
+	}
+	pivotIndex := len(arr) - 1
+	pivot := arr[pivotIndex]
+
+	left := 0
+	right := pivotIndex - 1
+
+	for left <= right {
+		for arr[left] < pivot {
+			left++
+		}
+		for arr[right] > pivot && right > 0 {
+			right--
+		}
+		if left <= right {
+			arr[left], arr[right] = arr[right], arr[left]
+			left++
+			right--
+		}
+	}
+	quickSort(arr[:right+1])
+	quickSort(arr[left:])
+}
+
+func ThreeSumClosest(nums []int, target int) int {
+	insertionSort(nums, 0, len(nums)-1)
+	best := 999999999
+	sum := 999999999
+
+	for i := 0; i < len(nums)-2; i++ {
+		for j := i + 1; j < len(nums)-1; j++ {
+			for k := j + 1; k < len(nums); k++ {
+				s := nums[i] + nums[j] + nums[k]
+				d := diff(s, target)
+				if s > target && d >= best {
+					break
+				}
+				if d < best {
+					best = d
+					sum = s
+				}
+			}
+		}
+	}
+
+	return sum
+}
+
+func insertionSort(arr []int, lo, hi int) {
+	for i := lo; i <= hi; i++ {
+		for j := i; j > lo && arr[j] < arr[j-1]; j-- {
+			swap := arr[j]
+			arr[j] = arr[j-1]
+			arr[j-1] = swap
+		}
+	}
+}
+
+func diff(a, b int) int {
+	if a > b {
+		return a - b
+	}
+	return b - a
+}
+
+//7,1,5,3,6,4
+
+func Test(board [][]byte) bool {
+	for i := 0; i < len(board); i++ { // rows
+		if HasDuplicates(board[i]) {
+			return false
+		}
+		col := []byte{board[0][i],
+			board[0][i],
+			board[0][i],
+			board[0][i],
+			board[0][i],
+			board[0][i],
+			board[0][i],
+			board[0][i],
+			board[0][i],
+		}
+		if HasDuplicates(col) {
+			return false
+		}
+
+		square := []byte{board[0][0],
+			board[0][1],
+			board[0][2],
+			board[1][0],
+			board[1][1],
+			board[1][2],
+			board[2][0],
+			board[2][1],
+			board[2][2],
+		}
+		if HasDuplicates(square) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func HasDuplicates[T comparable](arr []T) bool {
+	seen := make(map[T]struct{})
+	for _, v := range arr {
+		if _, exists := seen[v]; exists {
+			return true // dup found
+		}
+		seen[v] = struct{}{}
+	}
+	return false
+}

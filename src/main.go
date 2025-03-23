@@ -59,11 +59,13 @@ func main() {
 
 	//////////////////////////////////////////////////////////////////////
 
-	ints := []int{3, 2, 1}
-	NextPermutation(ints)
+	arr := []int{1, 7, 9, 4}
+	//arr2 := []int{2, 5, 6}
 
 	TimeFunction("Answer", func() (interface{}, error) {
-		return RangeBitwiseAnd(1, 2), nil
+
+		//fmt.Printf("%v\n", r)
+		return Test(arr), nil
 	})
 
 	return
