@@ -57,65 +57,24 @@ func main() {
 		return BruteForce61(), nil
 	})
 
+	TimeFunction("Answer 62", func() (interface{}, error) {
+		return CP2(), nil
+	})
+
 	//////////////////////////////////////////////////////////////////////
 
-	arr := []int{1, 7, 9, 4}
+	//arr := []int{2, 3, 1, 2, 4, 3}
 	//arr2 := []int{2, 5, 6}
 
 	TimeFunction("Answer", func() (interface{}, error) {
 
 		//fmt.Printf("%v\n", r)
-		return Test(arr), nil
+		return Test("aa", "aa"), nil
 	})
 
 	return
 
 	//////////////////////////////////////////////////////////////////////
-
-	best := 0
-	for q_root := 10; q_root < 200; q_root++ {
-		qube := q_root * q_root * q_root
-		ns := GetUniquePermutations_cp(qube)
-		no_of_qubes := No_of_cubes(ns)
-		if no_of_qubes > best {
-			best = no_of_qubes
-			//fmt.Printf("Number: %d: %d cubes\n", q_root, no_of_qubes)
-		}
-		if q_root%10 == 0 {
-			//println(q_root)
-		}
-	}
-
-	res := 1000000
-
-	// Step 1: Generate lots of cube numbers
-	maxCubeRoot := 50000 // Adjust this for more or fewer cubes
-	cubes := GenerateCubes(maxCubeRoot)
-
-	// Step 2: Group cube numbers by their length
-	groups := GroupByLength(cubes)
-
-	// Step 3: Process each group to find permutations
-	for _, numbers := range groups {
-		permutations := FindPermutations(numbers)
-		for key, nums := range permutations {
-			if len(nums) == 4 && key[0] != '0' { // Only print groups with actual permutations
-				fmt.Printf("  Permutations of %s: %v\n", key, nums)
-				s := FindSmallest(nums)
-				test, s_qr := IsPerfectPower_copied(s, 3)
-				if test {
-					if s_qr < res {
-						res = s_qr
-					}
-					fmt.Printf("%d\n", s_qr)
-				} else {
-					println("wtf")
-				}
-			}
-		}
-	}
-	println(res)
-	println(res * res * res)
 
 }
 

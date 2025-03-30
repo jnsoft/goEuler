@@ -537,141 +537,59 @@ func IsPerfectPower_copied(n int, power int) (bool, int) {
 	return false, 0
 }
 
-// get all permutations of a number, ignore repeated digits in input number
-func GetUniquePermutations_cp(n int) []int {
-	str := strconv.Itoa(n)
-	digits := []rune(str)
+func CP2() int {
+	min := 5027
+	max := 10000
+	for i := min; i < max; i++ {
+		c1_str := sortString(strconv.Itoa(i * i * i))
+		c1_lg := len(c1_str)
+		for j := i + 1; j < max; j++ {
+			c2_str := sortString(strconv.Itoa(j * j * j))
+			if len(c2_str) > c1_lg {
+				break
+			}
+			if c1_str == c2_str {
+				for k := j + 1; k < max; k++ {
+					c3_str := sortString(strconv.Itoa(k * k * k))
+					if len(c3_str) > c1_lg {
+						break
+					}
+					if c3_str == c1_str {
+						for l := k + 1; l < max; l++ {
+							c4_str := sortString(strconv.Itoa(l * l * l))
+							if len(c4_str) > c1_lg {
+								break
+							}
+							if c4_str == c1_str {
+								for m := l + 1; m < max; m++ {
+									c5_str := sortString(strconv.Itoa(m * m * m))
+									if len(c5_str) > c1_lg {
+										break
+									}
+									if c5_str == c1_str {
+										fmt.Printf("found: %d,%d,%d,%d,%d\n", i, j, k, l, m)
+										return i * i * i
+									}
+								}
+							}
+						}
 
-	// Use a map to prevent duplicates
-	permutationsSet := make(map[string]struct{})
-	permute_unique_cp(digits, 0, permutationsSet)
+					}
 
-	// Convert the map keys to integers
-	result := []int{}
-	for perm := range permutationsSet {
-		num, _ := strconv.Atoi(perm)
-		if len(str) == len(strconv.Itoa(num)) {
-			result = append(result, num)
+				}
+			}
 		}
 
 	}
-	return result
+	return -1
 }
 
-func GetQubePermutations(n int) []int {
-	str := strconv.Itoa(n)
-	digits := []rune(str)
-
-	permutationsSet := make(map[string]struct{})
-	permute_unique_cp(digits, 0, permutationsSet)
-
-	result := []int{}
-	for perm := range permutationsSet {
-		num, _ := strconv.Atoi(perm)
-		if len(str) == len(strconv.Itoa(num)) {
-			result = append(result, num)
-		}
-
-	}
-	return result
-}
-
-func permute_unique_cp(digits []rune, start int, permutationsSet map[string]struct{}) {
-	if start == len(digits)-1 {
-		permutationsSet[string(digits)] = struct{}{} // Add to map to avoid duplicates
-		return
-	}
-
-	for i := start; i < len(digits); i++ {
-		// Swap current element with the starting element
-		digits[start], digits[i] = digits[i], digits[start]
-
-		// Recursively generate permutations for the remaining digits
-		permute_unique_cp(digits, start+1, permutationsSet)
-
-		// Swap back to restore the original state
-		digits[start], digits[i] = digits[i], digits[start]
-	}
-}
-
-func GetPermutations_copied(n int) []int {
-	str := strconv.Itoa(n)
-	digits := []rune(str)
-
-	permutations := []string{}
-	permute_copied(digits, 0, &permutations)
-
-	result := []int{}
-	for _, perm := range permutations {
-		num, _ := strconv.Atoi(perm)
-		result = append(result, num)
-	}
-	return result
-}
-
-func permute_copied(digits []rune, start int, permutations *[]string) {
-	if start == len(digits)-1 {
-		*permutations = append(*permutations, string(digits))
-		return
-	}
-
-	for i := start; i < len(digits); i++ {
-		// Swap current element with the starting element
-		digits[start], digits[i] = digits[i], digits[start]
-
-		// Recursively generate permutations for the remaining digits
-		permute_copied(digits, start+1, permutations)
-
-		// Swap back to restore the original state
-		digits[start], digits[i] = digits[i], digits[start]
-	}
-}
-
-func Permutations_copied(arr []any) [][]any {
-	var result [][]any
-	generatePermutations_copied(arr, 0, &result)
-	return result
-}
-
-func generatePermutations_copied(arr []any, start int, result *[][]any) {
-	if start == len(arr)-1 {
-		// Append a copy of the current permutation to the result
-		temp := make([]any, len(arr))
-		copy(temp, arr)
-		*result = append(*result, temp)
-		return
-	}
-
-	for i := start; i < len(arr); i++ {
-		// Swap current element with the starting element
-		arr[start], arr[i] = arr[i], arr[start]
-
-		// Recursively generate permutations for the remaining elements
-		generatePermutations_copied(arr, start+1, result)
-
-		// Swap back to restore the original state
-		arr[start], arr[i] = arr[i], arr[start]
-	}
-}
-
-func No_of_cubes(arr []int) int {
-	res := 0
-	for i := 0; i < len(arr); i++ {
-		if ok, _ := IsPerfectPower_copied(arr[i], 3); ok {
-			res++
-		}
-
-	}
-	return res
-}
-
-func GenerateCubes(max int) []int {
-	cubes := []int{}
-	for i := 1; i <= max; i++ {
-		cube := i * i * i
-		cubes = append(cubes, cube)
-	}
-	return cubes
+func sortString(s string) string {
+	runes := []rune(s)
+	sort.Slice(runes, func(i, j int) bool {
+		return runes[i] < runes[j]
+	})
+	return string(runes)
 }
 
 // Function to group numbers by their length
@@ -1015,37 +933,42 @@ func diff(a, b int) int {
 
 //7,1,5,3,6,4
 
-func Test(board [][]byte) bool {
+func TestSuduko(board [][]byte) bool {
+	fmt.Printf("%v\n", board[0])
 	for i := 0; i < len(board); i++ { // rows
 		if HasDuplicates(board[i]) {
 			return false
 		}
 		col := []byte{board[0][i],
-			board[0][i],
-			board[0][i],
-			board[0][i],
-			board[0][i],
-			board[0][i],
-			board[0][i],
-			board[0][i],
-			board[0][i],
+			board[1][i],
+			board[2][i],
+			board[3][i],
+			board[4][i],
+			board[5][i],
+			board[6][i],
+			board[7][i],
+			board[8][i],
 		}
 		if HasDuplicates(col) {
 			return false
 		}
 
-		square := []byte{board[0][0],
-			board[0][1],
-			board[0][2],
-			board[1][0],
-			board[1][1],
-			board[1][2],
-			board[2][0],
-			board[2][1],
-			board[2][2],
-		}
-		if HasDuplicates(square) {
-			return false
+		if i%3 == 0 {
+			for j := 0; j < 9; j += 3 {
+				square := []byte{board[i][j],
+					board[i][j+1],
+					board[i][j+2],
+					board[i+1][j+0],
+					board[i+1][j+1],
+					board[i+1][j+2],
+					board[i+2][j],
+					board[i+2][j+1],
+					board[i+2][j+2],
+				}
+				if HasDuplicates(square) {
+					return false
+				}
+			}
 		}
 	}
 
@@ -1055,10 +978,64 @@ func Test(board [][]byte) bool {
 func HasDuplicates[T comparable](arr []T) bool {
 	seen := make(map[T]struct{})
 	for _, v := range arr {
+
 		if _, exists := seen[v]; exists {
 			return true // dup found
 		}
 		seen[v] = struct{}{}
 	}
 	return false
+}
+
+func Test(s string, t string) string {
+	ans := ""
+	rs := []rune(t)
+	str := []rune(s)
+	hmap := map[rune]int{}
+	lg := len(rs)
+	j := 0
+	best := 999999
+	for i := 0; i < len(str); i++ {
+		if contains(rs, str[i]) {
+			hmap[str[i]]++
+		}
+		if len(hmap) == lg {
+			if i-j+1 < best {
+				best = i - j + 1
+				ans = s[j : i+1]
+			}
+		}
+		for len(hmap) == lg {
+			if len(hmap) == lg {
+				if i-j+1 < best {
+					best = i - j + 1
+					ans = s[j : i+1]
+				}
+			}
+			r := str[j]
+			val, exists := hmap[r]
+			if exists {
+				if val > 1 {
+					hmap[str[j]]--
+				} else {
+					delete(hmap, r)
+				}
+			}
+			j++
+		}
+	}
+	return ans
+}
+
+func contains(rs []rune, r rune) bool {
+	for _, v := range rs {
+		if v == r {
+			return true
+		}
+	}
+	return false
+}
+
+func l2(m map[rune]int, w []rune) int {
+	return 0
 }
